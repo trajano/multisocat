@@ -1,0 +1,14 @@
+version: '3.7'
+services:
+  log:
+    build: .
+    image: trajano/multisocat
+    user: root
+    environment:
+      SOCAT_BEATS: "TCP-LISTEN:5044,fork TCP:202.54.1.5:5044"
+      SOCAT_TEXT: "TCP-LISTEN:5555,fork TCP:202.54.1.5:5555"
+      SOCAT_GELF: "UDP-LISTEN:12201,fork UDP:202.54.1.5:12201"
+      BLACKHOLE_TCP: "514,50000"
+      BLACKHOLE_UDP: "514,60000"
+    healthcheck:
+      test: nc -z localhost 5044
